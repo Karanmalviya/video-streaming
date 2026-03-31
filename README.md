@@ -187,6 +187,31 @@ Storage
 4. **Tenant isolation** — Each user has an `organizationId`. Editors see only their own uploads. Admins see all within their org. Viewers see only assigned videos.
 5. **Test database** — Tests use a separate MongoDB database (`-test` suffix) to avoid corrupting development data.
 
+## Deployment
+
+### Backend (Render - Recommended)
+
+1.  **Create a New Web Service** on [Render](https://dashboard.render.com).
+2.  Connect your GitHub repository.
+3.  Select **Root Directory**: `backend`.
+4.  Set **Build Command**: `npm install`.
+5.  Set **Start Command**: `npm start`.
+6.  **Add Environment Variables**:
+    - `MONGODB_URI` (Atlas connection string)
+    - `JWT_SECRET` (Random string)
+    - `CLIENT_URL` (Your Vercel URL, e.g., `https://project.vercel.app`)
+7.  **(Optional) Persistent Disk**: Add a "Disk" in Render settings with mount path `/opt/render/project/src/backend/uploads` to persist videos across redeploys.
+
+### Frontend (Vercel)
+
+1.  **Import Project** on [Vercel](https://vercel.com/new).
+2.  Select the `frontend` folder as the **Root Directory** (or set it in project settings).
+3.  **Framework Preset**: Vite.
+4.  **Add Environment Variable**:
+    - `VITE_API_URL` (Your Render URL, e.g., `https://backend.onrender.com`)
+
+---
+
 ## License
 
 MIT
