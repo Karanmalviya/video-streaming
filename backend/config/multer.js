@@ -3,8 +3,12 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 
-const uploadDir = path.resolve(process.env.UPLOAD_DIR || 'uploads');
-if (!fs.existsSync(uploadDir)) {
+const isVercel = process.env.VERCEL === '1';
+const uploadDir = isVercel
+    ? '/tmp'
+    : path.resolve(process.env.UPLOAD_DIR || 'uploads');
+
+if (!isVercel && !fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 

@@ -68,13 +68,19 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-    await connectDB();
-    server.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-        console.log(`Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
-    });
+    try {
+        await connectDB();
+        server.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+            console.log(`Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error.message);
+    }
 };
 
-startServer();
+if (require.main === module) {
+    startServer();
+}
 
-module.exports = { app, server };
+module.exports = app;
